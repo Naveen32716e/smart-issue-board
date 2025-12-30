@@ -6,6 +6,7 @@ import {
   collection,
   getDocs,
   updateDoc,
+  deleteDoc,
   doc,
   serverTimestamp,
 } from "firebase/firestore";
@@ -82,7 +83,7 @@ export default function Dashboard() {
     fetchIssues();
   };
 
-  // Status rule
+  // Update status with rule
   const updateStatus = async (id, oldStatus, newStatus) => {
     if (oldStatus === "Open" && newStatus === "Done") {
       alert("Issue must move to 'In Progress' before 'Done'");
@@ -90,6 +91,17 @@ export default function Dashboard() {
     }
 
     await updateDoc(doc(db, "issues", id), { status: newStatus });
+    fetchIssues();
+  };
+
+  // Delete issue
+  const deleteIssue = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this issue?"
+    );
+    if (!confirmDelete) return;
+
+    await deleteDoc(doc(db, "issues", id));
     fetchIssues();
   };
 
@@ -213,7 +225,6 @@ export default function Dashboard() {
               className="card border-0 rounded-4 p-4"
               style={{ boxShadow: "0 12px 32px rgba(0,0,0,0.08)" }}
             >
-              {/* PRIORITY BADGE */}
               <span
                 className="badge rounded-pill px-3 py-2 mb-2"
                 style={{
@@ -251,6 +262,20 @@ export default function Dashboard() {
               {issue.status === "Done" && (
                 <small className="text-muted mt-2 d-block">
                   This issue is marked as Done and cannot be changed.
+                </small>
+              )}
+
+              <button
+                className="btn btn-outline-danger btn-sm mt-3"
+                disabled={issue.status === "Done"}
+                onClick={() => deleteIssue(issue.id)}
+              >
+                Delete Issue
+              </button>
+
+              {issue.status === "Done" && (
+                <small className="text-muted d-block mt-1">
+                  Completed issues cannot be deleted.
                 </small>
               )}
             </div>
