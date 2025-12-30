@@ -20,9 +20,22 @@ export default function Login() {
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card shadow p-4" style={{ width: "380px" }}>
-        <h4 className="text-center mb-3">Login</h4>
+    <div
+      className="min-vh-100 d-flex align-items-center justify-content-center"
+      style={{
+        background:
+          "linear-gradient(135deg, #fff1eb 0%, #ffe4d1 40%, #ffd3a5 70%, #ffffff 100%)",
+      }}
+    >
+      <div
+        className="card border-0 rounded-4 p-5"
+        style={{
+          width: "380px",
+          background: "rgba(255,255,255,0.95)",
+          boxShadow: "0 18px 40px rgba(0,0,0,0.12)",
+        }}
+      >
+        <h3 className="fw-bold text-center mb-4">Login</h3>
 
         <input
           className="form-control mb-3"
@@ -32,12 +45,19 @@ export default function Login() {
 
         <input
           type="password"
-          className="form-control mb-3"
+          className="form-control mb-4"
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
         />
 
-        <button className="btn btn-primary w-100" onClick={handleLogin}>
+        <button
+          className="btn w-100 text-white fw-semibold"
+          style={{
+            background: "linear-gradient(90deg, #ff8a00, #ffb347)",
+            border: "none",
+          }}
+          onClick={handleLogin}
+        >
           Login
         </button>
       </div>
